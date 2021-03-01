@@ -80,7 +80,9 @@ const Admin = ({ setSelectedAdmin }) => {
                 return <div key={a.adminID}>
                     <span>{`${a.username}: ${a.firstName} ${a.lastName} `}</span>
                     <button disabled={a.adminID === parseInt(sID)} id="selectAdmin" value={a.adminID} onClick={ handleClick }>Select</button>
-                    <button id="deleteAdmin" value={a.adminID} onClick={ handleClick }>Delete</button>
+                    <button id="deleteAdmin" value={a.adminID} onClick={ handleClick }>
+                        <i className="material-icons">delete_forever</i>
+                    </button>
                 </div>
             }) : "No Admins"}
             <div>
