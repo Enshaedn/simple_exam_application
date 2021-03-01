@@ -32,7 +32,10 @@
             INSERT INTO admins
             (username, firstName, lastName, adminCreated)
             VALUES
-            ('dogeAdmin', 'Jen', 'Clontz', #createODBCDateTime(NOW())#)
+            (<cfqueryparam value="#url.username#" cfsqltype="cf_sql_varchar">, 
+            <cfqueryparam value="#url.firstName#" cfsqltype="cf_sql_varchar">, 
+            <cfqueryparam value="#url.lastName#" cfsqltype="cf_sql_varchar">, 
+            #createODBCDateTime(NOW())#)
         </cfquery>
         <cfdump  var="#result.generatedKey#">
     </cffunction>
@@ -40,7 +43,7 @@
     <cffunction  name="adminDelete" access="remote">
         <cfquery name="adminDelete" datasource="ntn_demo" result="result">
             DELETE FROM admins
-            WHERE adminID = 2
+            WHERE adminID = <cfqueryparam value="#url.id#" cfsqltype="cf_sql_integer">
         </cfquery>
         <cfdump  var="#result#">
     </cffunction>
