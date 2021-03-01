@@ -16,8 +16,8 @@ const Admin = ({ setSelectedAdmin }) => {
     //get request to CF to get all admin data, only refresh on changes to admins
     useEffect(() => {
         fetch('http://localhost:8500/exam_demo/public/adminQuery.cfc?method=adminGet')
-        .then(response => response.json())
-        .then(data => setAdmin(data));
+            .then(response => response.json())
+            .then(data => setAdmin(data));
     }, [admins]);
 
     const handleClick = (e) => {

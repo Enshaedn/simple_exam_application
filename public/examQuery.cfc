@@ -27,4 +27,31 @@
 
         <cfsetting enablecfoutputonly="No" showdebugoutput="No">
     </cffunction>
+
+    <!--- function to get exams associated with specific admin --->
+    <cffunction name="adminExams" access="remote">
+        <cfquery name="adminExamsQuery" datasource="ntn_demo">
+                SELECT adminID, testID
+                FROM testAdmins
+                WHERE adminID = <cfqueryparam value="#url.id#" cfsqltype="cf_sql_integer">
+        </cfquery>
+
+        <cfset response = [] />
+
+        <cfoutput query="adminExamsQuery">
+            <cfset obj = {
+                "adminID" = adminID,
+                "testID" = testID            
+            } />
+            <cfset arrayAppend(response, obj) />
+        </cfoutput>
+
+        <cfprocessingdirective suppresswhitespace="Yes"> 
+            <cfoutput>
+                #serializeJSON(response)#
+            </cfoutput>
+        </cfprocessingdirective>
+
+        <cfsetting enablecfoutputonly="No" showdebugoutput="No">
+    </cffunction>
 </cfcomponent>
