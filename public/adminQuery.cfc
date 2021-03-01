@@ -1,5 +1,8 @@
 <cfcomponent>
+    <!--- CORS access to CF / DB --->
     <cfheader name="Access-Control-Allow-Origin" value="*">
+
+    <!--- function to get all admins from the DB in JSON format --->
     <cffunction name="adminGet" access="remote">
         <cfquery name="adminQuery" datasource="ntn_demo">
                 SELECT adminID, username, firstName, lastName
@@ -26,7 +29,8 @@
 
         <cfsetting enablecfoutputonly="No" showdebugoutput="No">
     </cffunction>
-
+    
+    <!--- function to add an admin into the DB, returns new adminID --->
     <cffunction  name="adminPost" access="remote">
         <cfquery name="adminCreate" datasource="ntn_demo" result="result">
             INSERT INTO admins
@@ -40,6 +44,7 @@
         <cfdump  var="#result.generatedKey#">
     </cffunction>
 
+    <!--- function to delete an admin from the DB based on adminID --->
     <cffunction  name="adminDelete" access="remote">
         <cfquery name="adminDelete" datasource="ntn_demo" result="result">
             DELETE FROM admins

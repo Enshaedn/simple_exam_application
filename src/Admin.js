@@ -26,7 +26,8 @@ const Admin = ({ setSelectedAdmin }) => {
 
         if(opt === 'selectAdmin') {
             console.log("You've selected admin : " + id);
-            setSelectedAdmin(admins.filter(i => i.adminID === parseInt(id)));
+            let a = admins.filter(i => i.adminID === parseInt(id))
+            setSelectedAdmin(a[0]);
             setSelectedID(id);
         } else if(opt === 'deleteAdmin') {
             deleteAdmin(id);

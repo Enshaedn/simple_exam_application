@@ -11,7 +11,7 @@ function App() {
   return (
     <div className="App">
       <Admin setSelectedAdmin={ setSelectedAdmin } />
-      <Exam />
+      <Exam sAdmin={ sAdmin } />
     </div>
   );
 }
