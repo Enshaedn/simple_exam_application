@@ -54,4 +54,31 @@
 
         <cfsetting enablecfoutputonly="No" showdebugoutput="No">
     </cffunction>
+
+    <!--- function to add a test into the DB, returns new testID --->
+    <cffunction  name="examPost" access="remote">
+        <cfquery name="examCreate" datasource="ntn_demo" result="result">
+            INSERT INTO tests
+            (testName, testCreated, testUpdated)
+            VALUES
+            (<cfqueryparam value="#url.testName#" cfsqltype="cf_sql_varchar">, 
+            #createODBCDateTime(NOW())#,
+            #createODBCDateTime(NOW())#)
+        </cfquery>
+        <cfoutput>
+            #result.generatedKey#
+        </cfoutput>
+        <!--- <cfdump  var="#result.generatedKey#"> --->
+    </cffunction>
+
+    <!--- function to add entry to testadmins table, linking an admin with a test --->
+    <cffunction  name="linkAdminToExam" access="remote">
+        <cfquery name="examAdminCreate" datasource="ntn_demo" result="result">
+            INSERT INTO testadmins
+            (adminID, testID)
+            VALUES
+            (<cfqueryparam value="#url.adminID#" cfsqltype="cf_sql_integer">,
+            <cfqueryparam value="#url.testID#" cfsqltype="cf_sql_integer">)
+        </cfquery>
+    </cffunction>
 </cfcomponent>

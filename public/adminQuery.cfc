@@ -41,7 +41,7 @@
             <cfqueryparam value="#url.lastName#" cfsqltype="cf_sql_varchar">, 
             #createODBCDateTime(NOW())#)
         </cfquery>
-        <cfdump  var="#result.generatedKey#">
+        <!--- <cfdump  var="#result.generatedKey#"> --->
     </cffunction>
 
     <!--- function to delete an admin from the DB based on adminID --->
@@ -50,6 +50,6 @@
             DELETE FROM admins
             WHERE adminID = <cfqueryparam value="#url.id#" cfsqltype="cf_sql_integer">
         </cfquery>
-        <cfdump  var="#result#">
+        <!--- <cfdump  var="#result#"> --->
     </cffunction>
 </cfcomponent>
