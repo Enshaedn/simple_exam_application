@@ -5,7 +5,7 @@ function App() {
   const [admins, setAdmin] = useState(null);
 
   useEffect(() => {
-    fetch('http://localhost:8500/exam_demo/public/adminQuery.cfc?method=adminFunction')
+    fetch('http://localhost:8500/exam_demo/public/adminQuery.cfc?method=adminGet')
       .then(response => response.json())
       .then(data => {
         console.log(data);
@@ -15,7 +15,7 @@ function App() {
   return (
     <div className="App">
       {admins ? admins.map(a => {
-        return <p>{a.firstName}</p>
+        return <p>{`${a.adminID}: ${a.firstName} ${a.lastName}`}</p>
       }) : "No Admins"}
     </div>
   );
