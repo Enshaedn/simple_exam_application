@@ -79,24 +79,36 @@ const Admin = ({ setSelectedAdmin }) => {
             {admins ? admins.map(a => {
                 return <div key={a.adminID}>
                     <span>{`${a.username}: ${a.firstName} ${a.lastName} `}</span>
-                    <button disabled={a.adminID === parseInt(sID)} id="selectAdmin" value={a.adminID} onClick={ handleClick }>Select</button>
-                    <button id="deleteAdmin" value={a.adminID} onClick={ handleClick }>
+                    <button className="btn-small" disabled={a.adminID === parseInt(sID)} id="selectAdmin" value={a.adminID} onClick={ handleClick }>Select</button>
+                    <button className="btn-small" id="deleteAdmin" value={a.adminID} onClick={ handleClick }>
                         <i className="material-icons">delete_forever</i>
                     </button>
                 </div>
             }) : "No Admins"}
-            <div>
+            <div className="container">
                 {
                     isAdding ? <form onSubmit={ handleSubmit }>
-                        <label htmlFor="username">Username: </label>
-                        <input onChange={ handleChange } value={username} id="username"/><br />
-                        <label htmlFor="firstName">First Name: </label>
-                        <input onChange={ handleChange } value={firstName} id="firstName"/><br />
-                        <label htmlFor="lastName">Last Name: </label>
-                        <input onChange={ handleChange } value={lastName} id="lastName"/><br />
-                        <button>Submit</button>
+                        <div className="row">
+                            <div className="input-field">
+                                <input onChange={ handleChange } value={username} id="username" type="text"/>
+                                <label htmlFor="username">Username: </label>
+                            </div>
+                        </div>
+                        <div className="row">
+                            <div className="input-field">
+                                <input onChange={ handleChange } value={firstName} id="firstName" type="text"/>
+                                <label htmlFor="firstName">First Name: </label>
+                            </div>
+                        </div>
+                        <div className="row">
+                            <div className="input-field">
+                                <input onChange={ handleChange } value={lastName} id="lastName" type="text"/>
+                                <label htmlFor="lastName">Last Name: </label>
+                            </div>
+                        </div>
+                        <button className="btn-small">Submit</button>
                     </form>
-                        : <button id="newAdmin" onClick={ handleClick }>+ Admin</button>
+                        : <button className="btn-small" id="newAdmin" onClick={ handleClick }>+ Admin</button>
                 }
             </div>
         </div>
