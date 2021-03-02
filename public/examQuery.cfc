@@ -55,6 +55,32 @@
         <cfsetting enablecfoutputonly="No" showdebugoutput="No">
     </cffunction>
 
+    <!--- function to get exam and linked admins from testadmins --->
+    <cffunction  name="examAdmins" access="remote">
+        <cfquery name="adminsLinkedToExam" datasource="ntn_demo">
+            SELECT * FROM testAdmins
+            WHERE testID = <cfqueryparam value="#url.id#" cfsqltype="cf_sql_integer">
+        </cfquery>
+
+        <cfset response = [] />
+
+        <cfoutput query="adminsLinkedToExam">
+            <cfset obj = {
+                "adminID" = adminID,
+                "testID" = testID            
+            } />
+            <cfset arrayAppend(response, obj) />
+        </cfoutput>
+
+        <cfprocessingdirective suppresswhitespace="Yes"> 
+            <cfoutput>
+                #serializeJSON(response)#
+            </cfoutput>
+        </cfprocessingdirective>
+
+        <cfsetting enablecfoutputonly="No" showdebugoutput="No">
+    </cffunction>
+
     <!--- function to add a test into the DB, returns new testID --->
     <cffunction  name="examPost" access="remote">
         <cfquery name="examCreate" datasource="ntn_demo" result="result">
@@ -73,7 +99,7 @@
 
     <!--- function to add entry to testadmins table, linking an admin with a test --->
     <cffunction  name="linkAdminToExam" access="remote">
-        <cfquery name="examAdminCreate" datasource="ntn_demo" result="result">
+        <cfquery name="examAdminCreate" datasource="ntn_demo">
             INSERT INTO testadmins
             (adminID, testID)
             VALUES
@@ -84,9 +110,18 @@
 
     <!--- function to delete an exam --->
     <cffunction  name="examDelete" access="remote">
-        <cfquery name="examToDelete" datasource="ntn_demo" result="result">
+        <cfquery name="examToDelete" datasource="ntn_demo">
             DELETE FROM tests
             WHERE testID = <cfqueryparam value="#url.id#" cfsqltype="cf_sql_integer">
+        </cfquery>
+    </cffunction>
+
+    <!--- function to delete an entry in testadmins --->
+    <cffunction  name="examAdminDelete" access="remote">
+        <cfquery name="examAdminsToDelete" datasource="ntn_demo">
+            DELETE FROM testadmins
+            WHERE (adminID = <cfqueryparam value="#url.adminID#" cfsqltype="cf_sql_integer">
+                AND testID = <cfqueryparam value="#url.testID#" cfsqltype="cf_sql_integer">)
         </cfquery>
     </cffunction>
 </cfcomponent>

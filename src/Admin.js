@@ -17,10 +17,12 @@ const Admin = ({ setSelectedAdmin, rootDomain }) => {
 
     //get request to CF to get all admin data, only refresh on changes to admins
     useEffect(() => {
+        //with admins in the [] below the function never stops, but also doesn't update
+        console.log("Admin useEffect");
         fetch(`${rootDomain}${domainPath}adminGet`)
             .then(response => response.json())
             .then(data => setAdmin(data));
-    }, [admins, rootDomain]);
+    }, [rootDomain]);
 
     const handleClick = (e) => {
         let opt = e.target.id;
@@ -102,8 +104,8 @@ const Admin = ({ setSelectedAdmin, rootDomain }) => {
                             <label htmlFor="lastName">Last Name: </label>
                             <input onChange={ handleChange } value={lastName} id="lastName" type="text"/>
                         </div>
-                        <button className="button-gap">Submit</button>
-                        <button onClick={ handleClick } id="cancel">Cancel</button>
+                        <button className="button-gap" type="submit">Submit</button>
+                        <button onClick={ handleClick } id="cancel" type="button">Cancel</button>
                     </form>
                         : <button id="newAdmin" onClick={ handleClick }>+ Admin</button>
                 }
