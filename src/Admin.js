@@ -36,6 +36,8 @@ const Admin = ({ setSelectedAdmin }) => {
                 setSelectedAdmin(null);
                 setSelectedID(null);
             }
+        } else if(opt === 'cancel') {
+            setAdding(false);
         } else {
             setAdding(true);
         }
@@ -77,38 +79,31 @@ const Admin = ({ setSelectedAdmin }) => {
     return (
         <div>
             {admins ? admins.map(a => {
-                return <div key={a.adminID} className="container col s12">
+                return <div key={a.adminID}>
                     <span>{`${a.username}: ${a.firstName} ${a.lastName} `}</span>
-                    <button className="btn-small button-gap" disabled={a.adminID === parseInt(sID)} id="selectAdmin" value={a.adminID} onClick={ handleClick }>Select</button>
-                    <button className="btn-small" id="deleteAdmin" value={a.adminID} onClick={ handleClick }>
-                        <i className="material-icons">delete_forever</i>
-                    </button>
+                    <button className="button-gap" disabled={a.adminID === parseInt(sID)} id="selectAdmin" value={a.adminID} onClick={ handleClick }>Select</button>
+                    <button id="deleteAdmin" value={a.adminID} onClick={ handleClick }>Delete</button>
                 </div>
             }) : "No Admins"}
-            <div className="container">
+            <div>
                 {
                     isAdding ? <form onSubmit={ handleSubmit }>
-                        <div className="row">
-                            <div className="input-field">
-                                <input onChange={ handleChange } value={username} id="username" type="text"/>
-                                <label htmlFor="username">Username: </label>
-                            </div>
+                        <div>
+                            <label htmlFor="username">Username: </label>
+                            <input onChange={ handleChange } value={username} id="username" type="text"/>
                         </div>
-                        <div className="row">
-                            <div className="input-field">
-                                <input onChange={ handleChange } value={firstName} id="firstName" type="text"/>
-                                <label htmlFor="firstName">First Name: </label>
-                            </div>
+                        <div>
+                            <label htmlFor="firstName">First Name: </label>
+                            <input onChange={ handleChange } value={firstName} id="firstName" type="text"/>
                         </div>
-                        <div className="row">
-                            <div className="input-field">
-                                <input onChange={ handleChange } value={lastName} id="lastName" type="text"/>
-                                <label htmlFor="lastName">Last Name: </label>
-                            </div>
+                        <div>
+                            <label htmlFor="lastName">Last Name: </label>
+                            <input onChange={ handleChange } value={lastName} id="lastName" type="text"/>
                         </div>
-                        <button className="btn-small">Submit</button>
+                        <button className="button-gap">Submit</button>
+                        <button onClick={ handleClick } id="cancel">Cancel</button>
                     </form>
-                        : <button className="btn-small" id="newAdmin" onClick={ handleClick }>+ Admin</button>
+                        : <button id="newAdmin" onClick={ handleClick }>+ Admin</button>
                 }
             </div>
         </div>

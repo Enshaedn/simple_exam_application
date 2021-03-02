@@ -32,6 +32,9 @@ const Exam = ({ sAdmin, domainCall }) => {
     const handleClick = (e) => {
         console.log("You're trying to create a new exam!");
         setCreating(true);
+        if(e.target.id === 'cancel') {
+            setCreating(false);
+        }
     };
 
     const handleSubmit = (e) => {
@@ -72,7 +75,8 @@ const Exam = ({ sAdmin, domainCall }) => {
                                     <input onChange={ handleChange } value={ testName } id="testName" />
                                 </div>
                             </div>
-                            <button className="btn-small">Submit</button>
+                            <button className="btn-small button-gap">Submit</button>
+                            <button className="btn-small" onClick={ handleClick } id="cancel">Cancel</button>
                         </form>
                     </div> : <button className="btn-small" onClick={ handleClick }>Create Exam</button>}
             </div> : "Please select an admin"}
