@@ -81,4 +81,12 @@
             <cfqueryparam value="#url.testID#" cfsqltype="cf_sql_integer">)
         </cfquery>
     </cffunction>
+
+    <!--- function to delete an exam --->
+    <cffunction  name="examDelete" access="remote">
+        <cfquery name="examToDelete" datasource="ntn_demo" result="result">
+            DELETE FROM tests
+            WHERE testID = <cfqueryparam value="#url.id#" cfsqltype="cf_sql_integer">
+        </cfquery>
+    </cffunction>
 </cfcomponent>

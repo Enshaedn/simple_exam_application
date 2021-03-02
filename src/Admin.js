@@ -1,7 +1,7 @@
 
 import { useState, useEffect } from 'react';
 
-const Admin = ({ setSelectedAdmin }) => {
+const Admin = ({ setSelectedAdmin, rootDomain }) => {
     //Store all admin data from DB
     const [admins, setAdmin] = useState(null);
     //selected ID
@@ -13,12 +13,14 @@ const Admin = ({ setSelectedAdmin }) => {
     const [firstName, setFirstName] = useState('');
     const [lastName, setLastName] = useState('');
 
+    const domainPath = 'adminQuery.cfc?method=';
+
     //get request to CF to get all admin data, only refresh on changes to admins
     useEffect(() => {
-        fetch('http://localhost:8500/exam_demo/public/adminQuery.cfc?method=adminGet')
+        fetch(`${rootDomain}${domainPath}adminGet`)
             .then(response => response.json())
             .then(data => setAdmin(data));
-    }, [admins]);
+    }, [admins, rootDomain]);
 
     const handleClick = (e) => {
         let opt = e.target.id;
@@ -59,14 +61,14 @@ const Admin = ({ setSelectedAdmin }) => {
     //request to CF to delete an admin from the DB based on adminID
     const deleteAdmin = (id) => {
         console.log("You've chosen to delete admin : " + id);
-        fetch(`http://localhost:8500/exam_demo/public/adminQuery.cfc?method=adminDelete&id=${id}`)
+        fetch(`${rootDomain}${domainPath}adminDelete&id=${id}`)
             .then(res => console.log(res));
     }
 
     //request to CF to add a new admin to DB
     const handleSubmit = (e) => {
         e.preventDefault();
-        fetch(`http://localhost:8500/exam_demo/public/adminQuery.cfc?method=adminPost&username=${username}&firstName=${firstName}&lastName=${lastName}`)
+        fetch(`${rootDomain}${domainPath}adminPost&username=${username}&firstName=${firstName}&lastName=${lastName}`)
             .then(res => console.log(res));
 
         //reset form fields and hide form
@@ -77,7 +79,7 @@ const Admin = ({ setSelectedAdmin }) => {
     }
 
     return (
-        <div>
+        <div className="adminPanel">
             {admins ? admins.map(a => {
                 return <div key={a.adminID}>
                     <span>{`${a.username}: ${a.firstName} ${a.lastName} `}</span>
