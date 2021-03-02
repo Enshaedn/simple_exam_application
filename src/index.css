@@ -12,7 +12,6 @@ code {
     monospace;
 }
 
-.shrink {
-  width: 40%;
-  margin: 0 auto;
+.button-gap {
+  margin: 0 10px;
 }

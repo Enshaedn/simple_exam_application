@@ -61,22 +61,28 @@ const Exam = ({ sAdmin, domainCall }) => {
     };
 
     return (
-        <div>
+        <div className="container">
             {sAdmin ? <div>
                 {isCreating ? 
                     <div>
                         <form onSubmit={ handleSubmit }>
-                            <label htmlFor="testName">Title: </label>
-                            <input onChange={ handleChange } value={ testName } id="testName" /><br />
-                            <button>Submit</button>
+                            <div className="row">
+                                <div className="input-field">
+                                    <label htmlFor="testName">Title: </label>
+                                    <input onChange={ handleChange } value={ testName } id="testName" />
+                                </div>
+                            </div>
+                            <button className="btn-small">Submit</button>
                         </form>
-                    </div> : <button onClick={ handleClick }>Create Exam</button>}
+                    </div> : <button className="btn-small" onClick={ handleClick }>Create Exam</button>}
             </div> : "Please select an admin"}
             <div>
                 {adminExamIDs ? <div>
                     <h3>{sAdmin.username}'s exams</h3>
                     { adminExams ? adminExams.map(exam => {
-                        return <p key={exam.testID}>{exam.testName}</p>
+                        return <div>
+                            <span key={exam.testID}>{exam.testName}</span>
+                        </div>
                     }) : null}
                     </div> : null}
             </div>

@@ -77,9 +77,9 @@ const Admin = ({ setSelectedAdmin }) => {
     return (
         <div>
             {admins ? admins.map(a => {
-                return <div key={a.adminID}>
+                return <div key={a.adminID} className="container col s12">
                     <span>{`${a.username}: ${a.firstName} ${a.lastName} `}</span>
-                    <button className="btn-small" disabled={a.adminID === parseInt(sID)} id="selectAdmin" value={a.adminID} onClick={ handleClick }>Select</button>
+                    <button className="btn-small button-gap" disabled={a.adminID === parseInt(sID)} id="selectAdmin" value={a.adminID} onClick={ handleClick }>Select</button>
                     <button className="btn-small" id="deleteAdmin" value={a.adminID} onClick={ handleClick }>
                         <i className="material-icons">delete_forever</i>
                     </button>
