@@ -51,7 +51,7 @@ code {
   padding-top: 10px;
 }
 
-.listGroup {
+.adminGroup {
   display: flex;
   flex-wrap: nowrap;
 }
@@ -68,6 +68,6 @@ code {
   align-self: flex-end;
 }
 
-/* .buttonGroup button {
-  vertical-align: middle;
-} */
+.addQuestion {
+  background-color: whitesmoke;
+}
