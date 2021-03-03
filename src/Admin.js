@@ -86,7 +86,7 @@ const Admin = ({ setSelectedAdmin, rootDomain }) => {
     return (
         <div className="adminPanel">
             <ul>
-                {admins.length ? admins.map(a => {
+                {admins && admins.length ? admins.map(a => {
                     return <li className="listGroup" key={a.adminID}>
                         <div className="listContent">
                             <span>{`${a.username}: ${a.firstName} ${a.lastName} `}</span>  

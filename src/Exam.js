@@ -10,20 +10,14 @@ const Exam = ({ sAdmin, rootDomain }) => {
     const domainPath = 'examQuery.cfc?method=';
 
     useEffect(() => {
-        //with exams in the [] below the function never stops running, but also doesn't update
-        //also seems to break adding an exam
         console.log("#1 running");
         getExams();
     }, []);
 
     useEffect(() => {
         console.log("#2 running");
-        if(sAdmin !== null) {
-            fetch(`${rootDomain}${domainPath}adminExams&id=${sAdmin.adminID}`)
-                .then(response => response.json())
-                .then(data => setAdminExamIDs(data));
-        }
-    }, [sAdmin, rootDomain]);
+        getAdminExams(sAdmin);
+    }, [sAdmin]);
 
     useEffect(() => {
         console.log("#3 running");
@@ -44,7 +38,7 @@ const Exam = ({ sAdmin, rootDomain }) => {
         } else if(opt === 'deleteExam') {
             examAdmins(id);
         } else if(opt === 'editExam') {
-            console.log('Edit this exam!');
+            console.log('Edit this exam!', id);
         } else if(opt === 'cancel') {
             setCreating(false);
         } else if(opt === 'createExam') {
@@ -80,12 +74,22 @@ const Exam = ({ sAdmin, rootDomain }) => {
             .then(data => setExams(data));
     }
 
+    const getAdminExams = (sAdmin) => {
+        if(sAdmin !== null) {
+            fetch(`${rootDomain}${domainPath}adminExams&id=${sAdmin.adminID}`)
+                .then(response => response.json())
+                .then(data => setAdminExamIDs(data));
+        }
+    }
+
     const examAdmins = (id) => {
         console.log('Getting exam admins');
         fetch(`${rootDomain}${domainPath}examAdmins&id=${id}`)
             .then(response => response.json())
             .then(data => removeExamAdmins(data))
-            .then(() => deleteExam(id));
+            .then(() => getAdminExams(sAdmin))
+            .then(() => deleteExam(id))
+            .then(() => getExams());
     };
 
     const deleteExam = (id) => {
@@ -106,7 +110,9 @@ const Exam = ({ sAdmin, rootDomain }) => {
     const linkAdminToExam = (id) => {
         console.log("generated key : " + id);
         fetch(`${rootDomain}${domainPath}linkAdminToExam&adminID=${sAdmin.adminID}&testID=${id}`)
-            .then(response => console.log(response));
+            .then(response => console.log(response))
+            .then(() => getExams())
+            .then(() => getAdminExams(sAdmin));
     };
 
     const ableToAdd = (id) => {
@@ -131,7 +137,7 @@ const Exam = ({ sAdmin, rootDomain }) => {
                     </div> : <button onClick={ handleClick } id="createExam">Create Exam</button>}
             </div> : "Please select an admin"}
             <div>
-                {sAdmin && adminExamIDs ? <div>
+                {sAdmin && adminExamIDs && adminExamIDs.length ? <div>
                     <h4>{sAdmin.username}'s exams</h4>
                     { adminExams ? adminExams.map(exam => {
                         return <div key={exam.testID}>
@@ -144,7 +150,7 @@ const Exam = ({ sAdmin, rootDomain }) => {
             </div>
             <div>
                 <h4>All Exams</h4>
-                {exams ? exams.map(exam => {
+                {exams && exams.length ? exams.map(exam => {
                     return <div key={ exam.testID }>
                         <span>{exam.testName}</span>
                         <button className="button-gap" id="addExamToAdmin" value={ exam.testID } onClick={ handleClick }>Add Exam</button>
