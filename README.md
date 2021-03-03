@@ -48,8 +48,7 @@ CREATE TABLE questions (
     questionCreated DATETIME NOT NULL,
     questionUpdated DATETIME NOT NULL,
     PRIMARY KEY (questionID),
-    FOREIGN KEY (testID) REFERENCES tests(testID),
-    FOREIGN KEY (adminID) REFERENCES admins(adminID),
+    FOREIGN KEY (testID) REFERENCES tests(testID) ON DELETE CASCADE,
     UNIQUE (questionID)
 );
 
@@ -62,5 +61,6 @@ CREATE TABLE questionOptions (
     optionCreated DATETIME NOT NULL,
     optionUpdated DATETIME NOT NULL,
     PRIMARY KEY (optionID),
+    FOREIGN KEY (questionID) REFERENCES questions(questionID) ON DELETE CASCADE,
     UNIQUE (optionID)
 );
