@@ -1,4 +1,6 @@
 import { useState, useEffect } from 'react';
+import AddOptions from './AddOptions';
+import AddTrueFalse from './AddTrueFalse';
 
 const AddQuestion = ({ questions, setQuestions, setCreatingQuestion }) => {
     const [prompt, setPrompt] = useState('');
@@ -9,10 +11,11 @@ const AddQuestion = ({ questions, setQuestions, setCreatingQuestion }) => {
 
     useEffect(() => {
         console.log("question type running");
-        if(questionType === 'multipleChoice') {
+        if(questionType === 'MultipleChoice') {
             setDisplayOptions(true);
             setDisplayTrueFalse(false);
-        } else if(questionType === 'trueFalse') {
+        } else if(questionType === 'TrueFalse') {
+            console.log('display tf');
             setDisplayTrueFalse(true);
             setDisplayOptions(false);
         } else {
@@ -64,12 +67,10 @@ const AddQuestion = ({ questions, setQuestions, setCreatingQuestion }) => {
                 </select>
             </div>
             {
-                displayOptions ? <div>
-                    Options
-                </div> : null   
+                displayOptions ? <AddOptions options={ options } setOptions={ setOptions } /> : null   
             }
             {
-                displayTrueFalse ? <div>True False</div> : null
+                displayTrueFalse ? <AddTrueFalse /> : null
             }
             <div>
                 <button id="confirmQuestion" type="button" onClick={ handleClick }>Confirm Question</button>

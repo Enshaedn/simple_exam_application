@@ -24,7 +24,7 @@
     <!--- function to get all questions associated with an exam from the DB in JSON format --->
     <cffunction name="examQuestionsGet" access="remote">
         <cfquery name="questionsQuery" datasource="ntn_demo">
-                SELECT testID, question, questionType, numOptions
+                SELECT questionID, testID, question, questionType, numOptions
                 FROM questions
                 WHERE testID = <cfqueryparam value="#url.testID#" cfsqltype="cf_sql_integer">
         </cfquery>
@@ -33,6 +33,7 @@
 
         <cfoutput query="questionsQuery">
             <cfset obj = {
+                "questionID" = questionID,
                 "testID" = testID,
                 "question" = question,
                 "questionType" = questionType,

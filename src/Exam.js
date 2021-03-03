@@ -77,6 +77,7 @@ const Exam = ({ sAdmin, rootDomain }) => {
             })
             .then(() => getExams());
 
+        setQuestions([]);
         setTestName('');
         setCreating(false);
     };
@@ -139,9 +140,10 @@ const Exam = ({ sAdmin, rootDomain }) => {
     }
 
     const getExamQuestions = (id) => {
+        setQuestions([]);
         fetch(`${rootDomain}${questionPath}examQuestionsGet&testID=${id}`)
             .then(response => response.json())
-            .then(data => setQuestions(data));
+            .then(data => setQuestions(data.sort((a, b) => a.questionID < b.questionID)));
     }
 
     const linkAdminToExam = (id) => {
@@ -200,7 +202,7 @@ const Exam = ({ sAdmin, rootDomain }) => {
                                 viewExam === exam.testID && questions ? <div>
                                     {
                                         questions.map(q => {
-                                            return <Question question={ q }/>
+                                            return <Question question={ q } key={ q.questionID }/>
                                         })
                                     }
                                 </div> : null
