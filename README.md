@@ -1,5 +1,9 @@
 This project was created as a coding challenge. It is not entirely completed and is provided as is - with minimal CSS, refactoring, and/or testing. The project uses React, ColdFusion, and MySQL for the stack. 
 
+To use, the React app must be kept in the ColdFusion folder, wwwroot. This is so that the cfc files will run on the CF server via the public folder of the app. Sample path C:\ColdFusion2021\cfusion\wwwroot\exam_demo
+
+ColdFusion data source named ntn_demo.
+
 The database is setup as such:
 
 CREATE DATABASE ntn_demo;
