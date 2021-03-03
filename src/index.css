@@ -1,5 +1,11 @@
+/* * {
+  margin: 0;
+  padding: 0;
+} */
+
 body {
   margin: 0;
+  padding: 0;
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
     'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
     sans-serif;
@@ -12,21 +18,26 @@ code {
     monospace;
 }
 
+.page {
+  display: flex;
+  flex-wrap: nowrap;
+  align-items: flex-start;
+}
+
 .button-gap {
   margin: 0 10px;
 }
 
 .adminPanel {
   padding: 0 10px;
-  width: 30%;
-  float: right;
-  border-left: 3px solid black;
+  text-align: center;
+  flex-grow: 1;
 }
 
 .examPanel {
-  width: 60%;
   text-align: center;
-  float: left;
+  border-right: 3px solid black;
+  flex-grow: 10;
 }
 
 .header {
@@ -43,19 +54,17 @@ code {
 .listGroup {
   display: flex;
   flex-wrap: nowrap;
-  /* border: 1px solid red; */
 }
 
 .listContent {
-  /* border: 1px solid blue; */
   flex-grow: 2;
   align-self: flex-start;
+  text-align: left;
 }
 
 .buttonGroup {
   text-align: right;
   flex-grow: 1;
-  /* border: 1px solid green; */
   align-self: flex-end;
 }
 

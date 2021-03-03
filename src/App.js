@@ -13,8 +13,10 @@ function App() {
   return (
     <div className="App">
       <Header />
-      <Admin setSelectedAdmin={ setSelectedAdmin } rootDomain={ rootDomain } />
-      <Exam sAdmin={ sAdmin } rootDomain={ rootDomain } />
+      <div className="page">
+        <Exam sAdmin={ sAdmin } rootDomain={ rootDomain } />
+        <Admin setSelectedAdmin={ setSelectedAdmin } rootDomain={ rootDomain } />
+      </div>
     </div>
   );
 }

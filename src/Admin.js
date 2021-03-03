@@ -98,7 +98,6 @@ const Admin = ({ setSelectedAdmin, rootDomain }) => {
                     </li>
                 }) : "No Admins"}
             </ul>
-            
             <div className="adminForm">
                 {
                     isAdding ? <form onSubmit={ handleSubmit }>
