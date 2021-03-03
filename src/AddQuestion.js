@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import AddOptions from './AddOptions';
 import AddTrueFalse from './AddTrueFalse';
 
+//Element for adding questions to an exam
 const AddQuestion = ({ questions, setQuestions, setCreatingQuestion }) => {
     const [prompt, setPrompt] = useState('');
     const [questionType, setQuestionType] = useState('multipleChoice');
@@ -9,6 +10,7 @@ const AddQuestion = ({ questions, setQuestions, setCreatingQuestion }) => {
     const [displayTrueFalse, setDisplayTrueFalse] = useState(false);
     const [options, setOptions] = useState([]);
 
+    //update display based on question type, re-render when type changes
     useEffect(() => {
         console.log("question type running");
         if(questionType === 'MultipleChoice') {
@@ -24,6 +26,7 @@ const AddQuestion = ({ questions, setQuestions, setCreatingQuestion }) => {
         }
     }, [questionType]);
 
+    //Update state for question data holders
     const handleChange = (e) => {
         let opt = e.target.id;
         let value = e.target.value;
@@ -41,15 +44,18 @@ const AddQuestion = ({ questions, setQuestions, setCreatingQuestion }) => {
 
         if(opt === 'confirmQuestion') {
             console.log("Question Confirmed");
+            //add confirmed question to questions array
             setQuestions([...questions, {
                 questionID: questions.length++,
                 question: prompt,
                 questionType,
                 options
             }])
+            //hide new question element
             setCreatingQuestion(false);
         } else if(opt === 'removeQuestion') {
             console.log("Cancelling question");
+            //hide new question element without adding question to array
             setCreatingQuestion(false);
         }
     }

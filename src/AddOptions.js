@@ -1,4 +1,5 @@
 
+//Element for adding multiple choice options to a question
 const AddOptions = ({ options, setOptions }) => {
 
     return (

@@ -1,6 +1,7 @@
 import TrueFalse from './TrueFalse';
 import Options from './Options';
 
+//element for displaying a question
 const Question = ({ question }) => {
     return (
         <div key={ question.questionID }>

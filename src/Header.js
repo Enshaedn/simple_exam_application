@@ -1,3 +1,4 @@
+//simple header element
 const Header = () => {
     return (
         <div className="header">

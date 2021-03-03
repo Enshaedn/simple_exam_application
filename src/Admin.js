@@ -13,6 +13,7 @@ const Admin = ({ setSelectedAdmin, rootDomain }) => {
     const [firstName, setFirstName] = useState('');
     const [lastName, setLastName] = useState('');
 
+    //path for CF query
     const domainPath = 'adminQuery.cfc?method=';
 
     //get request to CF to get all admin data on load
@@ -21,6 +22,7 @@ const Admin = ({ setSelectedAdmin, rootDomain }) => {
         getAdmins();
     }, []);
 
+    //get all admins in DB, set state
     const getAdmins = () => {
         fetch(`${rootDomain}${domainPath}adminGet`)
             .then(response => response.json())
@@ -32,6 +34,7 @@ const Admin = ({ setSelectedAdmin, rootDomain }) => {
         let id = e.target.value;
 
         if(opt === 'selectAdmin') {
+            //Select a specific admin
             console.log("You've selected admin : " + id);
             let a = admins.filter(i => i.adminID === parseInt(id))
             setSelectedAdmin(a[0]);
@@ -44,6 +47,7 @@ const Admin = ({ setSelectedAdmin, rootDomain }) => {
                 setSelectedID(null);
             }
         } else if(opt === 'cancel') {
+            //hide new admin form
             setAdding(false);
         } else {
             setAdding(true);
@@ -54,6 +58,7 @@ const Admin = ({ setSelectedAdmin, rootDomain }) => {
         let opt = e.target.id;
         let value = e.target.value;
 
+        //set state variables for new admin form
         if(opt === 'username') {
             setUsername(value);
         } else if(opt === 'firstName') {

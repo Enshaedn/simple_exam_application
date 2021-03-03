@@ -12,19 +12,25 @@ const Exam = ({ sAdmin, rootDomain }) => {
     const [creatingQuestion, setCreatingQuestion] = useState(false);
     const [viewExam, setViewExam] = useState(-1);
     
+    //path variables for exams and questions
     const domainPath = 'examQuery.cfc?method=';
     const questionPath = 'questionsQuery.cfc?method=';
 
+    //get all current exams in DB on load
     useEffect(() => {
         console.log("#1 running");
         getExams();
     }, []);
 
+    //get the exams associated with the selected admin on admin selected change
     useEffect(() => {
         console.log("#2 running");
         getAdminExams(sAdmin);
     }, [sAdmin]);
 
+    //Take the exams an admin is paired with and get the exam objects from the exams list
+    //by filtering the exams based on testID. AdminExams used to display the list of exams 
+    //of which an admin is currently associated
     useEffect(() => {
         console.log("#3 running");
         let a = adminExamIDs ? adminExamIDs.map(id => {
@@ -34,6 +40,7 @@ const Exam = ({ sAdmin, rootDomain }) => {
         setAdminExams(a)
     }, [adminExamIDs, exams]);
 
+    //not currently used, watching questions array
     useEffect(() => {
         console.log(questions);
     }, [questions]);
@@ -54,6 +61,7 @@ const Exam = ({ sAdmin, rootDomain }) => {
             getExamQuestions(id);
             setViewExam(parseInt(id));
         } else if(opt === 'cancel') {
+            //cancel exam creation, reset flags and questions array
             setCreating(false);
             setCreatingQuestion(false);
             setQuestions([]);
@@ -72,11 +80,15 @@ const Exam = ({ sAdmin, rootDomain }) => {
         fetch(`${rootDomain}${domainPath}examPost&testName=${testName}`)
             .then(response => response.json())
             .then(id => {
+                //after exam creation, link admin who created it to the exam
                 linkAdminToExam(id);
+                //add the questions to the new exam
                 addQuestionsToExam(id);
             })
+            //refresh exams on screen
             .then(() => getExams());
 
+        //reset questions array and test name field
         setQuestions([]);
         setTestName('');
         setCreating(false);
@@ -91,12 +103,14 @@ const Exam = ({ sAdmin, rootDomain }) => {
         }        
     };
 
+    //get all exams in DB
     const getExams = () => {
         fetch(`${rootDomain}${domainPath}examsGet`)
             .then(response => response.json())
             .then(data => setExams(data));
     }
 
+    //get all exams selected admin is paired with from testAdmins linking table
     const getAdminExams = (sAdmin) => {
         if(sAdmin !== null) {
             fetch(`${rootDomain}${domainPath}adminExams&id=${sAdmin.adminID}`)
@@ -105,6 +119,7 @@ const Exam = ({ sAdmin, rootDomain }) => {
         }
     }
 
+    //reverse of getAdminExams, gets all admins associated with a specific exam
     const examAdmins = (id) => {
         console.log('Getting exam admins');
         fetch(`${rootDomain}${domainPath}examAdmins&id=${id}`)
@@ -113,14 +128,21 @@ const Exam = ({ sAdmin, rootDomain }) => {
             .then(() => getAdminExams(sAdmin))
             .then(() => deleteExam(id))
             .then(() => getExams());
+
+            //remove entries in testAdmins table with the response data
+            //refresh the selected admin's exams
+            //delete exam from tests table
+            //refresh exams
     };
 
+    //delete exam from tests table
     const deleteExam = (id) => {
         console.log('Deleting exam: ' + id);
         fetch(`${rootDomain}${domainPath}examDelete&id=${id}`)
             .then(response => console.log(response));
     };
 
+    //remove each pair of admin and test via provided data
     const removeExamAdmins = (data) => {
         console.log('Deleting links');
         data.forEach(pair => {
@@ -130,6 +152,7 @@ const Exam = ({ sAdmin, rootDomain }) => {
         });
     }
 
+    //add each question in the questions array to the questions table, associated with specific testID
     const addQuestionsToExam = (id) => {
         console.log("Adding questions");
         questions.forEach(q => {
@@ -139,6 +162,7 @@ const Exam = ({ sAdmin, rootDomain }) => {
         })
     }
 
+    //get all questions associated with a specific testID
     const getExamQuestions = (id) => {
         setQuestions([]);
         fetch(`${rootDomain}${questionPath}examQuestionsGet&testID=${id}`)
@@ -146,14 +170,19 @@ const Exam = ({ sAdmin, rootDomain }) => {
             .then(data => setQuestions(data.sort((a, b) => a.questionID < b.questionID)));
     }
 
+    //add the admin to existing exam
     const linkAdminToExam = (id) => {
         console.log("generated key : " + id);
         fetch(`${rootDomain}${domainPath}linkAdminToExam&adminID=${sAdmin.adminID}&testID=${id}`)
             .then(response => console.log(response))
             .then(() => getExams())
             .then(() => getAdminExams(sAdmin));
+
+            //refresh exams
+            //refresh admin's exams
     };
 
+    //check if an admin is able to add the selected exam
     const ableToAdd = (id) => {
         return !adminExams.filter(x => x.testID === parseInt(id)).length > 0;
     };

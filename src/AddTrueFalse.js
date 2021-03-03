@@ -1,4 +1,5 @@
 
+//Element for adding true / false question type
 const AddTrueFalse = () => {
 
     return (

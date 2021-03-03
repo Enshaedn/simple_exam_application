@@ -1,3 +1,4 @@
+//element for displaying multiple choice question options
 const Options = ({ options }) => {
 
     return (

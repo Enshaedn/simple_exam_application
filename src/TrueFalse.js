@@ -1,4 +1,5 @@
 
+//element for displaying true / false options of a question
 const TrueFalse = () => {
 
     return (
