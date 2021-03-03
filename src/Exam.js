@@ -13,10 +13,8 @@ const Exam = ({ sAdmin, rootDomain }) => {
         //with exams in the [] below the function never stops running, but also doesn't update
         //also seems to break adding an exam
         console.log("#1 running");
-        fetch(`${rootDomain}${domainPath}examsGet`)
-            .then(response => response.json())
-            .then(data => setExams(data));
-    }, [rootDomain]);
+        getExams();
+    }, []);
 
     useEffect(() => {
         console.log("#2 running");
@@ -60,7 +58,8 @@ const Exam = ({ sAdmin, rootDomain }) => {
         console.log(`Creating exam: ${testName}`);
         fetch(`${rootDomain}${domainPath}examPost&testName=${testName}`)
             .then(response => response.json())
-            .then(id => linkAdminToExam(id));
+            .then(id => linkAdminToExam(id))
+            .then(() => getExams());
 
         setTestName('');
         setCreating(false);
@@ -74,6 +73,12 @@ const Exam = ({ sAdmin, rootDomain }) => {
             setTestName(value);
         }        
     };
+
+    const getExams = () => {
+        fetch(`${rootDomain}${domainPath}examsGet`)
+            .then(response => response.json())
+            .then(data => setExams(data));
+    }
 
     const examAdmins = (id) => {
         console.log('Getting exam admins');
@@ -96,7 +101,6 @@ const Exam = ({ sAdmin, rootDomain }) => {
             fetch(`${rootDomain}${domainPath}examAdminDelete&adminID=${pair.adminID}&testID=${pair.testID}`)
                 .then(response => console.log(response));
         });
-        
     }
 
     const linkAdminToExam = (id) => {
@@ -127,7 +131,7 @@ const Exam = ({ sAdmin, rootDomain }) => {
                     </div> : <button onClick={ handleClick } id="createExam">Create Exam</button>}
             </div> : "Please select an admin"}
             <div>
-                {adminExamIDs ? <div>
+                {sAdmin && adminExamIDs ? <div>
                     <h4>{sAdmin.username}'s exams</h4>
                     { adminExams ? adminExams.map(exam => {
                         return <div key={exam.testID}>

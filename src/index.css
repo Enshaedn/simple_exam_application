@@ -18,13 +18,13 @@ code {
 
 .adminPanel {
   padding: 0 10px;
-  width: 20%;
+  width: 30%;
   float: right;
   border-left: 3px solid black;
 }
 
 .examPanel {
-  width: 70%;
+  width: 60%;
   text-align: center;
   float: left;
 }
@@ -33,3 +33,32 @@ code {
   border-bottom: 3px solid black;
   margin-bottom: 10px;
 }
+
+.adminForm {
+  border-top: 3px solid black;
+  margin-top: 10px;
+  padding-top: 10px;
+}
+
+.listGroup {
+  display: flex;
+  flex-wrap: nowrap;
+  /* border: 1px solid red; */
+}
+
+.listContent {
+  /* border: 1px solid blue; */
+  flex-grow: 2;
+  align-self: flex-start;
+}
+
+.buttonGroup {
+  text-align: right;
+  flex-grow: 1;
+  /* border: 1px solid green; */
+  align-self: flex-end;
+}
+
+/* .buttonGroup button {
+  vertical-align: middle;
+} */

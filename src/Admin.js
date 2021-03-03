@@ -15,14 +15,17 @@ const Admin = ({ setSelectedAdmin, rootDomain }) => {
 
     const domainPath = 'adminQuery.cfc?method=';
 
-    //get request to CF to get all admin data, only refresh on changes to admins
+    //get request to CF to get all admin data on load
     useEffect(() => {
-        //with admins in the [] below the function never stops, but also doesn't update
         console.log("Admin useEffect");
+        getAdmins();
+    }, []);
+
+    const getAdmins = () => {
         fetch(`${rootDomain}${domainPath}adminGet`)
             .then(response => response.json())
             .then(data => setAdmin(data));
-    }, [rootDomain]);
+    };
 
     const handleClick = (e) => {
         let opt = e.target.id;
@@ -64,14 +67,14 @@ const Admin = ({ setSelectedAdmin, rootDomain }) => {
     const deleteAdmin = (id) => {
         console.log("You've chosen to delete admin : " + id);
         fetch(`${rootDomain}${domainPath}adminDelete&id=${id}`)
-            .then(res => console.log(res));
+            .then(res => getAdmins());
     }
 
     //request to CF to add a new admin to DB
     const handleSubmit = (e) => {
         e.preventDefault();
         fetch(`${rootDomain}${domainPath}adminPost&username=${username}&firstName=${firstName}&lastName=${lastName}`)
-            .then(res => console.log(res));
+            .then(res => getAdmins());
 
         //reset form fields and hide form
         setUsername('');
@@ -82,14 +85,21 @@ const Admin = ({ setSelectedAdmin, rootDomain }) => {
 
     return (
         <div className="adminPanel">
-            {admins ? admins.map(a => {
-                return <div key={a.adminID}>
-                    <span>{`${a.username}: ${a.firstName} ${a.lastName} `}</span>
-                    <button className="button-gap" disabled={a.adminID === parseInt(sID)} id="selectAdmin" value={a.adminID} onClick={ handleClick }>Select</button>
-                    <button id="deleteAdmin" value={a.adminID} onClick={ handleClick }>Delete</button>
-                </div>
-            }) : "No Admins"}
-            <div>
+            <ul>
+                {admins.length ? admins.map(a => {
+                    return <li className="listGroup" key={a.adminID}>
+                        <div className="listContent">
+                            <span>{`${a.username}: ${a.firstName} ${a.lastName} `}</span>  
+                        </div>
+                        <div className="buttonGroup">
+                            <button className="button-gap" disabled={a.adminID === parseInt(sID)} id="selectAdmin" value={a.adminID} onClick={ handleClick }>Select</button>
+                            <button id="deleteAdmin" value={a.adminID} onClick={ handleClick }>Delete</button>
+                        </div>
+                    </li>
+                }) : "No Admins"}
+            </ul>
+            
+            <div className="adminForm">
                 {
                     isAdding ? <form onSubmit={ handleSubmit }>
                         <div>
